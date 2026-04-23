@@ -23,6 +23,7 @@ function App() {
   };
 
   const decrement = async () => {
+    if (count <= 0) return;
     await updateDoc(docRef, { count: count - 1 });
   };
 
@@ -31,11 +32,30 @@ function App() {
   };
 
   return (
-    <div>
-      <h1 className="font-bold text-9xl">{count}</h1>
-      <button onClick={increment}>＋</button>
-      <button onClick={decrement}>－</button>
-      <button onClick={reset}>リセット</button>
+    <div className="flex items-center justify-center h-screen bg-gray-100">
+      <div className="bg-white rounded-2xl shadow-md p-10 flex flex-col items-center gap-6">
+        <h1 className="font-bold text-8xl text-gray-800">{count}</h1>
+        <div className="flex gap-10">
+          <button
+            onClick={increment}
+            className="text-2xl bg-gray-200 hover:bg-gray-300 w-16 h-16 rounded-full cursor-pointer"
+          >
+            ＋
+          </button>
+          <button
+            onClick={decrement}
+            className="text-2xl bg-gray-200 hover:bg-gray-300 w-16 h-16 rounded-full cursor-pointer"
+          >
+            －
+          </button>
+        </div>
+        <button
+          onClick={reset}
+          className="mt-10 text-sm text-gray-400 hover:text-gray-600 cursor-pointer"
+        >
+          リセット
+        </button>
+      </div>
     </div>
   );
 }
