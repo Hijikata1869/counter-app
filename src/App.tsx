@@ -32,7 +32,7 @@ function App() {
 
   return (
     <div>
-      <h1>{count}</h1>
+      <h1 className="font-bold text-9xl">{count}</h1>
       <button onClick={increment}>＋</button>
       <button onClick={decrement}>－</button>
       <button onClick={reset}>リセット</button>
