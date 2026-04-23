@@ -28,6 +28,7 @@ function App() {
   };
 
   const reset = async () => {
+    if (count !== 0 && !window.confirm("リセットしますか？")) return;
     await updateDoc(docRef, { count: 0 });
   };
 
