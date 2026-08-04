@@ -4,11 +4,20 @@ import { doc, onSnapshot, updateDoc, setDoc } from "firebase/firestore";
 
 const docRef = doc(db, "counter", "main");
 
+const formatDate = (date: Date) =>
+  `${date.getFullYear()} - ${date.getMonth() + 1} - ${date.getDate()}`;
+
 function Stopwatch() {
   const [elapsed, setElapsed] = useState(0);
   const [running, setRunning] = useState(false);
+  const [today, setToday] = useState(() => formatDate(new Date()));
   const startTimeRef = useRef<number | null>(null);
   const rafRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    const id = setInterval(() => setToday(formatDate(new Date())), 60000);
+    return () => clearInterval(id);
+  }, []);
 
   useEffect(() => {
     if (running) {
@@ -41,6 +50,7 @@ function Stopwatch() {
   return (
     <div className="bg-white rounded-2xl shadow-md p-10 w-96 flex flex-col items-center gap-6">
       <h2 className="text-lg font-semibold text-gray-400 tracking-widest uppercase">Stopwatch</h2>
+      <p className="text-2xl font-bold text-gray-800 tracking-widest tabular-nums">{today}</p>
       <p className="font-bold text-8xl text-gray-800 tabular-nums">{display}</p>
       <div className="w-full flex items-center justify-center gap-6">
         {!running && (
@@ -67,17 +77,8 @@ function Stopwatch() {
   );
 }
 
-const formatDate = (date: Date) =>
-  `${date.getFullYear()} - ${String(date.getMonth() + 1).padStart(2, "0")} - ${String(date.getDate()).padStart(2, "0")}`;
-
 function App() {
   const [count, setCount] = useState<number>(0);
-  const [today, setToday] = useState(() => formatDate(new Date()));
-
-  useEffect(() => {
-    const id = setInterval(() => setToday(formatDate(new Date())), 60000);
-    return () => clearInterval(id);
-  }, []);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(docRef, (snapshot) => {
@@ -105,12 +106,7 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gray-100 p-6">
-      <div className="flex-1 flex items-center">
-        <p className="text-4xl sm:text-5xl font-bold text-gray-800 tracking-widest tabular-nums">
-          {today}
-        </p>
-      </div>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-6">
       <div className="flex flex-col lg:flex-row gap-6 items-center">
         <div className="bg-white rounded-2xl shadow-md p-10 w-96 flex flex-col items-center gap-6">
           <h2 className="text-lg font-semibold text-gray-400 tracking-widest uppercase">Counter</h2>
@@ -138,7 +134,6 @@ function App() {
         </div>
         <Stopwatch />
       </div>
-      <div className="flex-1" />
     </div>
   );
 }
