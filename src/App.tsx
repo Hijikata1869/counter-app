@@ -67,8 +67,17 @@ function Stopwatch() {
   );
 }
 
+const formatDate = (date: Date) =>
+  `${date.getFullYear()} - ${String(date.getMonth() + 1).padStart(2, "0")} - ${String(date.getDate()).padStart(2, "0")}`;
+
 function App() {
   const [count, setCount] = useState<number>(0);
+  const [today, setToday] = useState(() => formatDate(new Date()));
+
+  useEffect(() => {
+    const id = setInterval(() => setToday(formatDate(new Date())), 60000);
+    return () => clearInterval(id);
+  }, []);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(docRef, (snapshot) => {
@@ -96,7 +105,12 @@ function App() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-6">
+    <div className="flex flex-col items-center min-h-screen bg-gray-100 p-6">
+      <div className="flex-1 flex items-center">
+        <p className="text-4xl sm:text-5xl font-bold text-gray-800 tracking-widest tabular-nums">
+          {today}
+        </p>
+      </div>
       <div className="flex flex-col sm:flex-row gap-6 items-center">
         <div className="bg-white rounded-2xl shadow-md p-10 flex flex-col items-center gap-6">
           <h2 className="text-lg font-semibold text-gray-400 tracking-widest uppercase">Counter</h2>
@@ -124,6 +138,7 @@ function App() {
         </div>
         <Stopwatch />
       </div>
+      <div className="flex-1" />
     </div>
   );
 }
