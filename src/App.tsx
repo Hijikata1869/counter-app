@@ -39,9 +39,9 @@ function Stopwatch() {
   const display = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 
   return (
-    <div className="bg-white rounded-2xl shadow-md p-10 w-80 flex flex-col items-center gap-6">
+    <div className="bg-white rounded-2xl shadow-md p-10 w-96 flex flex-col items-center gap-6">
       <h2 className="text-lg font-semibold text-gray-400 tracking-widest uppercase">Stopwatch</h2>
-      <p className="font-bold text-5xl text-gray-800 tabular-nums">{display}</p>
+      <p className="font-bold text-8xl text-gray-800 tabular-nums">{display}</p>
       <div className="w-full flex items-center justify-center gap-6">
         {!running && (
           <button
@@ -111,8 +111,8 @@ function App() {
           {today}
         </p>
       </div>
-      <div className="flex flex-col sm:flex-row gap-6 items-center">
-        <div className="bg-white rounded-2xl shadow-md p-10 flex flex-col items-center gap-6">
+      <div className="flex flex-col lg:flex-row gap-6 items-center">
+        <div className="bg-white rounded-2xl shadow-md p-10 w-96 flex flex-col items-center gap-6">
           <h2 className="text-lg font-semibold text-gray-400 tracking-widest uppercase">Counter</h2>
           <p className="font-bold text-8xl text-gray-800">{count}</p>
           <div className="flex gap-10">
